@@ -25,6 +25,8 @@ public static class PurchaseTileManager
             TileStatusChecker checker = new TileStatusChecker();
             if (checker.IsTilePurchasable(gameState.HexTilesList, owner, rowIndex, columnIndex))
             {
+                owner.Gold -= 2 + (2 * owner.OwnedTileCount);
+                owner.OwnedTileCount += 1;
                 PurchaseTileAndUpdateGameState(gameState, owner, rowIndex, columnIndex);
                 StateManager.UpdateRoomStateAndNotify(roomId, gameState);
             }
