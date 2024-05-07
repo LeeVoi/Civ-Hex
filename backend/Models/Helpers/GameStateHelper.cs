@@ -78,6 +78,17 @@ public static class GameStateHelper
         
         gameState.HexTilesList[4][5].GetTileStatus = TileStatus.Owned;
         gameState.HexTilesList[4][5].Owner = gameState.PlayersList[1];
+        
+        // Give each player one of each resource
+        gameState.PlayersList[0].Wood = 5;
+        gameState.PlayersList[0].Stone = 5;
+        gameState.PlayersList[0].Grain = 5;
+        gameState.PlayersList[0].Sheep = 5;
+
+        gameState.PlayersList[1].Wood = 5;
+        gameState.PlayersList[1].Stone = 5;
+        gameState.PlayersList[1].Grain = 5;
+        gameState.PlayersList[1].Sheep = 5;
 
         //Turn 7 means it's player1's turn
         gameState.TurnNumber = 7;

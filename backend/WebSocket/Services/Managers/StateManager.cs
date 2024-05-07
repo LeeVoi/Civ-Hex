@@ -37,14 +37,30 @@ public static class StateManager
         NotifyPlayers(roomId, gameState);
     }
     
+    // Method to notify players in a specific room about the updated game state
     private static void NotifyPlayers(Guid roomId, GameState gameState)
     {
+        // Iterate through all player-room pairs in the WebSocket state
         foreach (var connection in WsState.PlayersRooms)
         {
+            // Check if the room associated with the player's connection matches the specified roomId
             if (connection.Value == roomId)
             {
+                // Retrieve the player's connection using their Id and send the serialized game state
                 WsState.Connections[connection.Key].Send(gameState.Serialize());
             }
         }
     }
+    
+    // Method to send a notification to a specific player's connection
+    public static void SendMessageToPlayer(Guid playerId, string message)
+    {
+        // Find the connection associated with the player
+        if (WsState.Connections.TryGetValue(playerId, out var playerConnection))
+        {
+            // Send the notification message to the player's connection
+            playerConnection.Send(message);
+        }
+    }
+    
 }

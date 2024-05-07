@@ -38,13 +38,7 @@ public static class PurchaseTileManager
         gameState.HexTilesList[rowIndex][columnIndex].Owner = owner;
         gameState.HexTilesList[rowIndex][columnIndex].GetTileStatus = TileStatus.Owned;
     }
-
     
-
-    
-
-    
-
     private static void TakeStartingTurn(GameState gameState, Player owner, int rowIndex, int columnIndex, Guid roomId)
     {
         TileStatusChecker checker = new TileStatusChecker();
