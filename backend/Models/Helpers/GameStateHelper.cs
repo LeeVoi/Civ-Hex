@@ -50,7 +50,7 @@ public static class GameStateHelper
             new Player("player2", startingGold, ws2Id)
         };
         
-        GameState state = new GameState(players, hexList, 1, roomId);
+        GameState state = new GameState(GameStatus.Active, players, hexList, 1, roomId);
 
         return state;
     }
@@ -84,6 +84,7 @@ public static class GameStateHelper
         gameState.PlayersList[0].Stone = 5;
         gameState.PlayersList[0].Grain = 5;
         gameState.PlayersList[0].Sheep = 5;
+        gameState.PlayersList[0].Population = 24;
 
         gameState.PlayersList[1].Wood = 5;
         gameState.PlayersList[1].Stone = 5;

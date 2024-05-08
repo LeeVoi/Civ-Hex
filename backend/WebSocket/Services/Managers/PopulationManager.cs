@@ -5,24 +5,25 @@ namespace backend.WebSocket.Services.Managers;
 
 public static class PopulationManager
 {
-    public static void BuyPopulation(Guid roomId, Guid playerId, int wood, int stone, int grain, int sheep)
+    public static void BuyPopulation(Guid roomId, Guid playerId, int population)
     {
         GameState gameState = StateManager.FindGameStateByRoomId(roomId);
         Player player = StateManager.FindPlayerById(gameState, playerId);
 
-        while (StateManager.IsPlayersTurn(playerId, gameState) && wood >= 1 && stone >= 1 && grain >= 1 && sheep >= 1)
+        if (player.Wood < population || player.Stone < population || player.Grain < population || player.Sheep < population)
         {
-            player.Population += 1;
-            player.Wood -= 1;
-            player.Stone -= 1;
-            player.Grain -= 1;
-            player.Sheep -= 1;
-
-            wood -= 1;
-            stone -= 1;
-            grain -= 1;
-            sheep -= 1;
+            //If not send them a custom message
+            string message = "You do not have enough resources to increase population by the desired amount.";
+            StateManager.SendMessageToPlayer(playerId, message);
         }
-        StateManager.UpdateRoomStateAndNotify(roomId, gameState);
+        else
+        {
+            player.Population += population;
+            player.Wood -= population;
+            player.Stone -= population;
+            player.Grain -= population;
+            player.Sheep -= population;
+            StateManager.UpdateRoomStateAndNotify(roomId, gameState);
+        }
     }
 }

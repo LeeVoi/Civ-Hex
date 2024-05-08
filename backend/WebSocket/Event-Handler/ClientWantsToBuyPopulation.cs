@@ -9,7 +9,7 @@ public class ClientWantsToBuyPopulation : BaseEventHandler<ClientWantsToBuyPopul
 {
     public override Task Handle(ClientWantsToBuyPopulationDto dto, IWebSocketConnection socket)
     {
-        WsState.BuyPopulation(dto.roomId, dto.playerId, dto.wood, dto.stone, dto.grain, dto.sheep);
+        WsState.BuyPopulation(dto.roomId, dto.playerId, dto.population);
         return Task.CompletedTask;
     }
 }
