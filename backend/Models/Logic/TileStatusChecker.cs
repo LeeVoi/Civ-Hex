@@ -7,7 +7,14 @@ public class TileStatusChecker
 {
     public bool IsTilePurchasable(List<List<HexTile>> gameBoard, Player player, int rowIndex, int columnIndex)
     {
-        if (gameBoard[rowIndex][columnIndex].GetTileStatus != TileStatus.Unowned)
+        int baseTilePrice = 2;
+        
+        if (IsTileOwned(gameBoard[rowIndex][columnIndex]))
+        {
+            return false;
+        }
+
+        if (player.Gold < baseTilePrice + (2 * player.OwnedTileCount))
         {
             return false;
         }

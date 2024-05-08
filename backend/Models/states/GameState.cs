@@ -1,11 +1,13 @@
 using System.Text.Json;
 using backend.Models.entities;
+using backend.Models.enums;
 
 namespace backend.Models.states;
 
 public class GameState
 {
     #region Properties
+    public GameStatus GameStatus { get; set; }
     public int TurnNumber { get; set; }
     public Guid RoomId { get; set; }
     public List<Player> PlayersList { get; set; }
@@ -24,8 +26,9 @@ public class GameState
        return JsonSerializer.Deserialize<GameState>(data)!;
     }
 
-    public GameState(List<Player> playersList, List<List<HexTile>> hexTilesList, int turnNumber, Guid roomId)
+    public GameState(GameStatus gameStatus, List<Player> playersList, List<List<HexTile>> hexTilesList, int turnNumber, Guid roomId)
     {
+        GameStatus = gameStatus;
         PlayersList = playersList;
         HexTilesList = hexTilesList;
         TurnNumber = turnNumber;

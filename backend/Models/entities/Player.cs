@@ -7,6 +7,8 @@ public class Player
     public Guid WsId { get; set; }
     public string PlayerName { get; set; }
     public int VictoryPoints { get; set; }
+    public int Population { get; set; }
+    public int OwnedTileCount { get; set; }
     public int Gold { get; set; }
     public int Wood { get; set; }
     public int Stone { get; set; }

@@ -50,7 +50,7 @@ public static class GameStateHelper
             new Player("player2", startingGold, ws2Id)
         };
         
-        GameState state = new GameState(players, hexList, 1, roomId);
+        GameState state = new GameState(GameStatus.Active, players, hexList, 1, roomId);
 
         return state;
     }
@@ -78,6 +78,18 @@ public static class GameStateHelper
         
         gameState.HexTilesList[4][5].GetTileStatus = TileStatus.Owned;
         gameState.HexTilesList[4][5].Owner = gameState.PlayersList[1];
+        
+        // Give each player one of each resource
+        gameState.PlayersList[0].Wood = 5;
+        gameState.PlayersList[0].Stone = 5;
+        gameState.PlayersList[0].Grain = 5;
+        gameState.PlayersList[0].Sheep = 5;
+        gameState.PlayersList[0].Population = 24;
+
+        gameState.PlayersList[1].Wood = 5;
+        gameState.PlayersList[1].Stone = 5;
+        gameState.PlayersList[1].Grain = 5;
+        gameState.PlayersList[1].Sheep = 5;
 
         //Turn 7 means it's player1's turn
         gameState.TurnNumber = 7;

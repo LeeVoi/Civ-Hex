@@ -33,4 +33,14 @@ public class WsState
     {
         TurnManager.EndTurn(playerId, roomId);
     }
+
+    public static void BuyGold(Guid roomId, Guid playerId, int wood, int stone, int grain, int sheep)
+    {
+        BuyGoldManager.BuyGold(roomId, playerId, wood, stone, grain, sheep);
+    }
+
+    public static void BuyPopulation(Guid roomId, Guid playerId, int population)
+    {
+        PopulationManager.BuyPopulation(roomId, playerId, population);
+    }
 }
