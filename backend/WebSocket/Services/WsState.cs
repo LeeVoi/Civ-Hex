@@ -38,4 +38,9 @@ public class WsState
     {
         BuyGoldManager.BuyGold(roomId, playerId, wood, stone, grain, sheep);
     }
+
+    public static void BuyPopulation(Guid roomId, Guid playerId, int wood, int stone, int grain, int sheep)
+    {
+        PopulationManager.BuyPopulation(roomId, playerId, wood, stone, grain, sheep);
+    }
 }
