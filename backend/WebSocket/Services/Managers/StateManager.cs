@@ -1,6 +1,7 @@
 ﻿using backend.Models;
 using backend.Models.entities;
 using backend.Models.enums;
+using backend.Models.Helpers;
 using backend.Models.states;
 
 namespace backend.WebSocket.Services.Managers;
@@ -66,7 +67,7 @@ public static class StateManager
                     return;
                 }
                 // Retrieve the player's connection using their Id and send the serialized game state
-                WsState.Connections[connection.Key].Send(gameState.Serialize());
+                WsState.Connections[connection.Key].SendDto(GameStateDtoManager.GetGameStateDto(gameState));
             }
         }
     }
