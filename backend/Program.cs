@@ -5,17 +5,17 @@ using backend.WebSocket.State;
 using Fleck;
 using lib;
 
-var app = await ApiStartUp.StartApi();
-app.UseSwagger();
-app.UseSwaggerUI();
-app.MapControllers();
-app.Run();
 
 namespace api
 {
     public static class ApiStartUp
     {
-        public static async Task<WebApplication> StartApi()
+        public static void Main(string[] args)
+        {
+            var webApp = StartApi(args);
+            webApp.Result.Run();
+        }
+        public static async Task<WebApplication> StartApi(string[] args)
         { 
             var builder = WebApplication.CreateBuilder();
             builder.Services.AddSingleton<ClientConnections>();
@@ -26,7 +26,7 @@ namespace api
 
             var app = builder.Build();
             
-            var server = new WebSocketServer("ws://0.0.0.0:8888");
+            var server = new WebSocketServer("ws://0.0.0.0:8181");
             
             server.Start(socket =>
             {
