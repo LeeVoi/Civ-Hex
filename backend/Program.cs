@@ -26,7 +26,7 @@ namespace api
 
             var app = builder.Build();
             
-            var server = new WebSocketServer("ws://0.0.0.0:8888");
+            var server = new WebSocketServer("ws://0.0.0.0:8181");
             
             server.Start(socket =>
             {

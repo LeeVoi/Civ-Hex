@@ -5,17 +5,26 @@ import 'package:flutter/material.dart';
 import 'package:hexagon/hexagon.dart';
 
 class HexTile extends StatefulWidget {
-  final TileType tileType;
-  final TileStatus tileStatus;
+  final TileType getTileType;
+  final TileStatus getTileStatus;
   final int tileNumber;
-  final Player owner;
+  final Player? owner;
 
   HexTile({super.key,
-    required this.tileType,
-    required this.tileStatus,
+    required this.getTileType,
+    required this.getTileStatus,
     required this.tileNumber,
     required this.owner,
   });
+
+  factory HexTile.fromJson(Map<String, dynamic> json) {
+    return HexTile(
+      getTileType: TileType.values[json['getTileType']],
+      getTileStatus: TileStatus.values[json['getTileStatus']],
+      tileNumber: json['tileNumber'],
+      owner: json['owner'] != null ? Player.fromJson(json['owner']) : null,
+    );
+  }
 
   @override
   _HexTileState createState() => _HexTileState();
@@ -30,7 +39,7 @@ class _HexTileState extends State<HexTile> {
   }
 
   Color getTileColorByTileType(){
-    switch(widget.tileType){
+    switch(widget.getTileType){
       case TileType.wood:
         return Colors.brown;
       case TileType.sheep:
@@ -49,7 +58,7 @@ class _HexTileState extends State<HexTile> {
       child: HexagonWidget.pointy(
         width: 90,
         color: getTileColorByTileType(),
-        elevation: 8,
+        elevation: 10,
         child: Text(widget.tileNumber.toString()),
       ),
     );

@@ -1,23 +1,18 @@
+import 'dart:convert';
+import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
+import 'components/game_board.dart';
+import 'models/gamestate.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  String jsonString = await rootBundle.loadString('lib/gamestate_jsons/test.json');
+  Map<String, dynamic> jsonData = jsonDecode(jsonString);
+  GameState gameState = GameState.fromJson(jsonData);
+
+  runApp(MaterialApp(
+    home: Scaffold(
+      body: GameBoard(gameState: gameState),
+    ),
+  ));
 }
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
-    );
-  }
-}
-
