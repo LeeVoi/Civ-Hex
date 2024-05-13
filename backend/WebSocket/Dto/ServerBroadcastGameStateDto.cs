@@ -8,14 +8,14 @@ namespace backend.WebSocket.Dto;
 public class ServerBroadcastGameStateDto : BaseDto
 {
     
-    public GameStatus gameStatus { get; set; }
+    public GameStatus GameStatus { get; set; }
     
-    public int turnNumber { get; set; }
+    public int TurnNumber { get; set; }
     
-    public Guid roomId { get; set; }
+    public Guid RoomId { get; set; }
     
-    public List<Player> playersList { get; set; }
+    public List<Player> PlayersList { get; set; }
     
-    public List<List<HexTile>> hexTilesList { get; set; }
+    public List<List<HexTile>> HexTilesList { get; set; }
     
 }
