@@ -17,9 +17,9 @@ class _BorderTileState extends State<BorderTile> {
   @override
   Widget build(BuildContext context) {
     return HexagonWidget.pointy(
-      width: 100,
+      width: 110,
       color: getBorderColor(),
-      elevation: 8,
+      elevation: 10,
     );
   }
 

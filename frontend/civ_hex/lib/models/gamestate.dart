@@ -18,11 +18,11 @@ class GameState {
 
   factory GameState.fromJson(Map<String, dynamic> json) {
     return GameState(
-      gameStatus: GameStatus.values[json['gameStatus']],
-      turnNumber: json['turnNumber'],
-      roomId: json['roomId'],
-      playersList: (json['playersList'] as List).map((i) => Player.fromJson(i)).toList(),
-      hexTilesList: (json['hexTilesList'] as List).map((i) => (i as List).map((j) => HexTile.fromJson(j)).toList()).toList(),
+      gameStatus: GameStatus.values[json['GameStatus']],
+      turnNumber: json['TurnNumber'],
+      roomId: json['RoomId'],
+      playersList: (json['PlayersList'] as List).map((i) => Player.fromJson(i)).toList(),
+      hexTilesList: (json['HexTilesList'] as List).map((i) => (i as List).map((j) => HexTile.fromJson(j)).toList()).toList(),
     );
   }
 }

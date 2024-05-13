@@ -19,10 +19,10 @@ class HexTile extends StatefulWidget {
 
   factory HexTile.fromJson(Map<String, dynamic> json) {
     return HexTile(
-      getTileType: TileType.values[json['getTileType']],
-      getTileStatus: TileStatus.values[json['getTileStatus']],
-      tileNumber: json['tileNumber'],
-      owner: json['owner'] != null ? Player.fromJson(json['owner']) : null,
+      getTileType: TileType.values[json['GetTileType']],
+      getTileStatus: TileStatus.values[json['GetTileStatus']],
+      tileNumber: json['TileNumber'],
+      owner: json['Owner'] != null ? Player.fromJson(json['Owner']) : null,
     );
   }
 
@@ -34,8 +34,7 @@ class _HexTileState extends State<HexTile> {
   // This is where you can define methods and properties that can change over time
 
   void _handleTap() {
-    print('HexTile tapped: ${widget.tileNumber}');
-    // Add your code here
+    //print('HexTile tapped: ${widget.tileNumber}');
   }
 
   Color getTileColorByTileType(){
@@ -45,7 +44,7 @@ class _HexTileState extends State<HexTile> {
       case TileType.sheep:
         return Colors.green;
       case TileType.stone:
-        return Colors.grey;
+        return Colors.blueGrey;
       case TileType.grain:
         return Colors.yellow;
     }

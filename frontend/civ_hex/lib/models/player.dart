@@ -27,16 +27,16 @@ class Player {
 
   factory Player.fromJson(Map<String, dynamic> json) {
     return Player(
-        wsId: json['wsId'],
-        playerName: json['playerName'],
-        victoryPoints: json['victoryPoints'],
-        population: json['population'],
-        ownedTileCount: json['ownedTileCount'],
-        wood: json['wood'],
-        stone: json['stone'],
-        grain: json['grain'],
-        sheep: json['sheep'],
-        gold: json['gold']
+        wsId: json['WsId'],
+        playerName: json['PlayerName'],
+        victoryPoints: json['VictoryPoints'],
+        population: json['Population'],
+        ownedTileCount: json['OwnedTileCount'],
+        wood: json['Wood'],
+        stone: json['Stone'],
+        grain: json['Grain'],
+        sheep: json['Sheep'],
+        gold: json['Gold']
     );
   }
 }

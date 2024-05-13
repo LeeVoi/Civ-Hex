@@ -24,9 +24,8 @@ class _GameBoardState extends State<GameBoard> {
           columns: 6,
           rows: 6,
           buildTile: (col, row) => HexagonWidgetBuilder(
-              color: row.isEven ? Colors.yellow : Colors.orangeAccent,
               elevation: 2,
-              padding: 4),
+              padding: 0),
           buildChild: (col, row) {
             if (row < widget.gameState.hexTilesList.length &&
                 col < widget.gameState.hexTilesList[row].length) {
@@ -42,7 +41,6 @@ class _GameBoardState extends State<GameBoard> {
           columns: 6,
           rows: 6,
           buildTile: (col, row) => HexagonWidgetBuilder(
-              color: row.isEven ? Colors.yellow : Colors.orangeAccent,
               elevation: 2,
               padding: 4),
           buildChild: (col, row) {

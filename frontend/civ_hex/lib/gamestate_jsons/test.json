@@ -1,8 +1,8 @@
 {
-  "gameStatus": 0,
-  "turnNumber": 7,
-  "roomId": "007afcf1-83b0-4fd1-8d96-a27e2cc94bb9",
-  "playersList": [
+  "GameStatus": 0,
+  "TurnNumber": 7,
+  "RoomId": "007afcf1-83b0-4fd1-8d96-a27e2cc94bb9",
+  "PlayersList": [
     {
       "WsId": "c166e528-effc-4281-bf09-0870ebf8f929",
       "PlayerName": "player1",
@@ -28,7 +28,7 @@
       "Sheep": 5
     }
   ],
-  "hexTilesList": [
+  "HexTilesList": [
     [
       {
         "GetTileType": 2,
