@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 void main() {
   runApp(
     MultiProvider(
-      providers: [Provider<DataSource>(create: (context) => FakeDataSource())],
+      providers: [Provider<DataSource>(create: (context) => WebSocketDataSource())],
       child: CivHexApp(),
       ),
   );

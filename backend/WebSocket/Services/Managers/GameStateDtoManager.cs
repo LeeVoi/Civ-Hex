@@ -10,11 +10,11 @@ public static class GameStateDtoManager
     {
         var dto = new ServerBroadcastGameStateDto
         {
-            gameStatus = state.GameStatus,
-            turnNumber = state.TurnNumber,
-            roomId = state.RoomId,
-            playersList = state.PlayersList,
-            hexTilesList = state.HexTilesList
+            GameStatus = state.GameStatus,
+            TurnNumber = state.TurnNumber,
+            RoomId = state.RoomId,
+            PlayersList = state.PlayersList,
+            HexTilesList = state.HexTilesList
         };
         
         return dto;

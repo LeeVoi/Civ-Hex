@@ -44,6 +44,7 @@ public class QueueManager
         {
             if (roomId == id.Value)
             {
+                Console.WriteLine("Client added to room");
                 WsState.Queue[id.Key].SendDto(GameStateDtoManager.GetGameStateDto(state));
             }
         }

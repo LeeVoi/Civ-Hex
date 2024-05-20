@@ -58,7 +58,7 @@ class _HexTileState extends State<HexTile> {
         width: 90,
         color: getTileColorByTileType(),
         elevation: 10,
-        child: Text(widget.tileNumber.toString()),
+        child: Text(widget.tileNumber.toString(), style: TextStyle(color: Colors.black),),
       ),
     );
   }
