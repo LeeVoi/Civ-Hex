@@ -43,13 +43,17 @@ class _HomeScreenState extends State<HomeScreen> {
                             // Navigate to the GameScreen when Play button is pressed
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => GameScreen()),
+                              MaterialPageRoute(
+                                  builder: (context) => GameScreen()),
                             );
                           },
                           style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all<Color>(Colors.red),
-                            foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
-                            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                            backgroundColor:
+                                MaterialStateProperty.all<Color>(Colors.red),
+                            foregroundColor:
+                                MaterialStateProperty.all<Color>(Colors.white),
+                            shape: MaterialStateProperty.all<
+                                RoundedRectangleBorder>(
                               RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10),
                               ),
@@ -67,9 +71,12 @@ class _HomeScreenState extends State<HomeScreen> {
                             });
                           },
                           style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all<Color>(Colors.red),
-                            foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
-                            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                            backgroundColor:
+                                MaterialStateProperty.all<Color>(Colors.red),
+                            foregroundColor:
+                                MaterialStateProperty.all<Color>(Colors.white),
+                            shape: MaterialStateProperty.all<
+                                RoundedRectangleBorder>(
                               RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10),
                               ),
@@ -84,13 +91,17 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ],
           ),
+
           if (_showRulesPopup)
             Container(
-              color: Colors.black.withOpacity(0.5), // Semi-transparent black background
+              color: Colors.black.withOpacity(0.5),
+              // Semi-transparent black background
               child: Center(
                 child: Container(
-                  width: MediaQuery.of(context).size.width * 0.8, // 80% of screen width
-                  height: MediaQuery.of(context).size.height * 0.5, // 50% of screen height
+                  width: MediaQuery.of(context).size.width * 0.8,
+                  // 80% of screen width
+                  height: MediaQuery.of(context).size.height * 0.5,
+                  // 50% of screen height
                   padding: const EdgeInsets.all(20),
                   decoration: BoxDecoration(
                     color: Colors.black,
@@ -101,7 +112,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     children: [
                       const Text(
                         'Game Rules',
-                        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.bold),
                       ),
                       const SizedBox(height: 20),
                       const Text(
