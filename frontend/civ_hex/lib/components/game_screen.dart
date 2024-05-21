@@ -20,7 +20,8 @@ class _GameScreenState extends State<GameScreen> {
           if (snapshot.hasData) {
             return LayoutBuilder(
               builder: (BuildContext context, BoxConstraints constraints) {
-                final isPortrait = constraints.maxHeight > constraints.maxWidth * .65;
+                final isPortrait =
+                    constraints.maxHeight > constraints.maxWidth * .65;
                 double width = constraints.maxWidth;
                 double height = constraints.maxHeight;
 
@@ -36,12 +37,20 @@ class _GameScreenState extends State<GameScreen> {
                           ),
                         ),
                       ),
-                      SizedBox(height: 10),
+                      const Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          BuyGoldButton(),
+                          AddPopulationButton(),
+                          EndTurnButton()
+                        ],
+                      ),
+                      const SizedBox(height: 10),
                       PlayerBoard(
                           player: snapshot.data!.playersList[0],
                           width: width,
                           height: height / 5),
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
                       PlayerBoard(
                           player: snapshot.data!.playersList[1],
                           width: width,
@@ -51,16 +60,25 @@ class _GameScreenState extends State<GameScreen> {
                 } else {
                   return Row(
                     children: <Widget>[
-                      SizedBox(width: 25,),
+                      const SizedBox(
+                        width: 25,
+                      ),
                       Expanded(
-                          child: SizedBox(
-                            width: width * (4 / 5),
-                            height: height - height / 10,
-                            child: AspectRatio(
-                              aspectRatio: 1,
-                              child: GameBoard(gameState: snapshot.data!),
-                            ),
-                          )),
+                          child:  AspectRatio(
+                          aspectRatio: 1,
+                          child: GameBoard(gameState: snapshot.data!),
+                        ),
+                      ),
+                      const Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          BuyGoldButton(),
+                          SizedBox(height: 10,),
+                          AddPopulationButton(),
+                          SizedBox(height: 10,),
+                          EndTurnButton()
+                        ],
+                      ),
                       Column(
                         children: <Widget>[
                           Expanded(
@@ -88,6 +106,79 @@ class _GameScreenState extends State<GameScreen> {
           }
         },
       ),
+    );
+  }
+}
+
+class EndTurnButton extends StatelessWidget {
+  const EndTurnButton({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      onPressed: () {
+        context.read<DataSource>().endTurn();
+      },
+      style: ButtonStyle(
+          backgroundColor: MaterialStateProperty.all<Color>(Colors.green),
+          foregroundColor: MaterialStateProperty.all<Color>(Colors.black),
+          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+          )),
+      child: const Text("End Turn"),
+    );
+  }
+}
+
+class AddPopulationButton extends StatelessWidget {
+  const AddPopulationButton({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      onPressed: () {
+        context.read<DataSource>().addPopulation();
+      },
+      style: ButtonStyle(
+          backgroundColor:
+              MaterialStateProperty.all<Color>(Colors.lightBlueAccent),
+          foregroundColor: MaterialStateProperty.all<Color>(Colors.black),
+          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+          )),
+      child: const Text("Add Population"),
+    );
+  }
+}
+
+class BuyGoldButton extends StatelessWidget {
+  const BuyGoldButton({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      onPressed: () {
+        context.read<DataSource>().addGold();
+      },
+      style: ButtonStyle(
+          backgroundColor: MaterialStateProperty.all<Color>(Colors.amber),
+          foregroundColor: MaterialStateProperty.all<Color>(Colors.black),
+          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+          )),
+      child: const Text("Buy Gold"),
     );
   }
 }

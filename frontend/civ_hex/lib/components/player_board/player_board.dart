@@ -1,5 +1,7 @@
 import 'package:civ_hex/components/player_board/display_hex.dart';
+import 'package:civ_hex/models/data_source.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../models/player.dart';
 
@@ -46,7 +48,9 @@ class _PlayerBoardState extends State<PlayerBoard> {
             children: [
               const Icon(Icons.emoji_events),
               Text(widget.player.victoryPoints.toString()),
-              IconButton(onPressed: tapPopulation, icon: const Icon(Icons.person_add)),
+              const Icon(Icons.monetization_on_outlined),
+              Text(widget.player.gold.toString()),
+              const Icon(Icons.person),
               Text(widget.player.population.toString())
             ],
           ),
@@ -55,7 +59,7 @@ class _PlayerBoardState extends State<PlayerBoard> {
     );
   }
 
-  void tapPopulation(){
+  void addPopulation(){
     print(widget.player.population);
   }
 
