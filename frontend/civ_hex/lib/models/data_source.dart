@@ -1,11 +1,7 @@
 import 'dart:convert';
 
 import 'package:civ_hex/models/client_meta_data.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
-import 'package:flutter/services.dart';
-import 'package:web_socket_channel/html.dart';
-import 'package:web_socket_channel/io.dart';
-import 'package:web_socket_channel/status.dart' as status;
+import 'package:web_socket_channel/web_socket_channel.dart';
 
 import 'gamestate.dart';
 
@@ -31,9 +27,7 @@ class FakeDataSource implements DataSource {
     **/
 
 class WebSocketDataSource implements DataSource {
-  final channel = kIsWeb
-      ? HtmlWebSocketChannel.connect('ws://localhost:8181')
-      : IOWebSocketChannel.connect('ws://localhost:8181');
+  final channel = WebSocketChannel.connect(Uri.parse('ws://localhost:8181'));
   late Stream<dynamic>  broadcastStream = channel.stream.asBroadcastStream();
 
   ClientMetaData clientMetaData = ClientMetaData.getInstance(playerId: '', roomId: '');

@@ -59,9 +59,12 @@ class _HexTileState extends State<HexTile> {
           if (_showShopIcon) // Add this line
             Positioned(
               right: 0,
-              child: IconButton(
-                icon: Icon(Icons.shopping_cart),
-                onPressed: (){context.read<DataSource>().buyTile(widget.row, widget.column);},
+              child: Align(
+                alignment: Alignment.center,
+                child: IconButton(
+                  icon: Icon(Icons.shopping_cart, color: Colors.black38,),
+                  onPressed: (){context.read<DataSource>().buyTile(widget.row, widget.column);},
+                ),
               ),
             ),
         ],
