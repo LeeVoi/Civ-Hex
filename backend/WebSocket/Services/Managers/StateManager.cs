@@ -56,18 +56,21 @@ public static class StateManager
     private static void NotifyPlayers(Guid roomId, GameState gameState)
     {
         // Iterate through all player-room pairs in the WebSocket state
-        foreach (var connection in WsState.PlayersRooms)
+        foreach (var roomConnection in WsState.PlayersRooms)
         {
             // Check if the room associated with the player's connection matches the specified roomId
-            if (connection.Value == roomId)
+            if (roomConnection.Value == roomId)
             {
                 if (IsGameComplete(gameState))
                 {
-                    EndGame(connection, roomId, gameState);
-                    return;
+                    EndGame(roomConnection, roomId, gameState);
                 }
-                // Retrieve the player's connection using their Id and send the serialized game state
-                WsState.Connections[connection.Key].SendDto(GameStateDtoManager.GetGameStateDto(gameState));
+
+                if (!IsGameComplete(gameState))
+                {
+                    // Retrieve the player's connection using their Id and send the serialized game state
+                    WsState.Connections[roomConnection.Key].SendDto(GameStateDtoManager.GetGameStateDto(gameState));
+                }
             }
         }
     }
@@ -84,8 +87,13 @@ public static class StateManager
 
     private static void EndGame(KeyValuePair<Guid, Guid> connection, Guid roomId, GameState gameState)
     {
-        WsState.Connections[connection.Key].Send(FindWinningPlayer(gameState).PlayerName + " has won the game!");
-        WsState.Connections[connection.Key].Send(gameState.Serialize());
+        var winningPlayer = FindWinningPlayer(gameState);
+        var winningMessage = $"{winningPlayer.PlayerName} has won the game!";
+
+        // Retrieve the player's connection using their Id and send the serialized game state
+        WsState.Connections[connection.Key].SendDto(GameStateDtoManager.GetGameStateDto(gameState));
+        WsState.Connections[connection.Key]
+            .SendDto(GameStateDtoManager.GetEndGameDto(winningMessage));
         WsState.RoomsState.Remove(roomId);
         WsState.PlayersRooms.Remove(connection.Key);
     }
