@@ -1,9 +1,12 @@
 import 'package:civ_hex/components/game_board.dart';
 import 'package:civ_hex/components/player_board/player_board.dart';
+import 'package:civ_hex/enums/game_status.dart';
+import 'package:civ_hex/models/gamestate.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../models/data_source.dart';
+import '../models/player.dart';
 
 class GameScreen extends StatefulWidget {
   @override
@@ -17,7 +20,7 @@ class _GameScreenState extends State<GameScreen> {
       body: StreamBuilder(
         stream: context.read<DataSource>().getGameState(),
         builder: (context, snapshot) {
-          if (snapshot.hasData) {
+          if (snapshot.hasData && snapshot.data!.gameStatus == GameStatus.active) {
             return LayoutBuilder(
               builder: (BuildContext context, BoxConstraints constraints) {
                 final isPortrait =
@@ -57,7 +60,12 @@ class _GameScreenState extends State<GameScreen> {
                           height: height / 5),
                     ],
                   );
-                } else {
+                } else if(snapshot.hasData && snapshot.data!.gameStatus == GameStatus.complete)
+                {
+                  return EndScreen(snapshot.data!);
+                }
+
+                else {
                   return Row(
                     children: <Widget>[
                       const SizedBox(
@@ -182,3 +190,36 @@ class BuyGoldButton extends StatelessWidget {
     );
   }
 }
+
+ class EndScreen extends StatelessWidget{
+
+  GameState gameState;
+
+  EndScreen({
+    super.key,
+    required this.gameState
+  })
+
+
+  Player? findWinningPlayer(GameState gameState){
+
+    for(var player in gameState.playersList) {
+
+      if(player.victoryPoints >= 50)
+      {
+        return player;
+      }
+    }
+    return null;
+  }
+
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Text('')
+
+    );
+  }
+
+ }

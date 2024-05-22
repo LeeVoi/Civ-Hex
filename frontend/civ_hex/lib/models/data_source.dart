@@ -99,6 +99,7 @@ class WebSocketDataSource implements DataSource {
       "roomId": clientMetaData.getRoomId(),
       "playerId": clientMetaData.getPlayerId()
     });
+    print(endTurnMessage);
     channel.sink.add(endTurnMessage);
   }
 }
