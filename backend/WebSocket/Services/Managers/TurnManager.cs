@@ -9,7 +9,7 @@ namespace backend.WebSocket.Services.Managers;
 
 public static class TurnManager
 {
-    public static void EndTurn(Guid playerId, Guid roomId)
+    public static void EndTurn(Guid roomId, Guid playerId)
     {
         GameState gameState = StateManager.FindGameStateByRoomId(roomId);
         if (StateManager.IsPlayersTurn(playerId, gameState))

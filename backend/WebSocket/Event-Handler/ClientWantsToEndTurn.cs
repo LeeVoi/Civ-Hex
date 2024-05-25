@@ -9,7 +9,7 @@ public class ClientWantsToEndTurn : BaseEventHandler<ClientWantsToEndTurnDto>
 {
     public override Task Handle(ClientWantsToEndTurnDto dto, IWebSocketConnection socket)
     {
-        WsState.EndTurn(dto.playerId, dto.roomId);
+        WsState.EndTurn(dto.roomId, dto.playerId);
         return Task.CompletedTask;
     }
 }

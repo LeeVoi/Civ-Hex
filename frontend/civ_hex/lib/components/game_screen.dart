@@ -14,17 +14,28 @@ class GameScreen extends StatefulWidget {
 }
 
 class _GameScreenState extends State<GameScreen> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: StreamBuilder(
-        stream: context.read<DataSource>().getGameState(),
-        builder: (context, snapshot) {
-          if (snapshot.hasData && snapshot.data!.gameStatus == GameStatus.active) {
+@override
+Widget build(BuildContext context) {
+  return Scaffold(
+    body: StreamBuilder<GameState>(
+      stream: context.read<DataSource>().getGameState(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting || !snapshot.hasData) {
+
+          return const Center(
+              child: CircularProgressIndicator()
+          );
+          } else {
+          GameState gameState = snapshot.data!;
+          print('Game state received: ${gameState.gameStatus}');
+
+          if (gameState.gameStatus == GameStatus.complete) {
+            return EndScreen(gameState: gameState);
+
+          } else if (gameState.gameStatus == GameStatus.active) {
             return LayoutBuilder(
               builder: (BuildContext context, BoxConstraints constraints) {
-                final isPortrait =
-                    constraints.maxHeight > constraints.maxWidth * .65;
+                final isPortrait = constraints.maxHeight > constraints.maxWidth * .65;
                 double width = constraints.maxWidth;
                 double height = constraints.maxHeight;
 
@@ -36,7 +47,7 @@ class _GameScreenState extends State<GameScreen> {
                         child: Center(
                           child: AspectRatio(
                             aspectRatio: 1,
-                            child: GameBoard(gameState: snapshot.data!),
+                            child: GameBoard(gameState: gameState),
                           ),
                         ),
                       ),
@@ -45,62 +56,59 @@ class _GameScreenState extends State<GameScreen> {
                         children: [
                           BuyGoldButton(),
                           AddPopulationButton(),
-                          EndTurnButton()
+                          EndTurnButton(),
                         ],
                       ),
                       const SizedBox(height: 10),
                       PlayerBoard(
-                          player: snapshot.data!.playersList[0],
-                          width: width,
-                          height: height / 5),
+                        player: gameState.playersList[0],
+                        width: width,
+                        height: height / 5,
+                      ),
                       const SizedBox(height: 10),
                       PlayerBoard(
-                          player: snapshot.data!.playersList[1],
-                          width: width,
-                          height: height / 5),
+                        player: gameState.playersList[1],
+                        width: width,
+                        height: height / 5,
+                      ),
                     ],
                   );
-                } else if(snapshot.hasData && snapshot.data!.gameStatus == GameStatus.complete)
-                {
-                  return EndScreen(snapshot.data!);
-                }
-
-                else {
+                } else {
                   return Row(
                     children: <Widget>[
-                      const SizedBox(
-                        width: 25,
-                      ),
+                      const SizedBox(width: 25),
                       Expanded(
-                          child:  AspectRatio(
+                        child: AspectRatio(
                           aspectRatio: 1,
-                          child: GameBoard(gameState: snapshot.data!),
+                          child: GameBoard(gameState: gameState),
                         ),
                       ),
                       const Column(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           BuyGoldButton(),
-                          SizedBox(height: 10,),
+                          SizedBox(height: 10),
                           AddPopulationButton(),
-                          SizedBox(height: 10,),
-                          EndTurnButton()
+                          SizedBox(height: 10),
+                          EndTurnButton(),
                         ],
                       ),
                       Column(
                         children: <Widget>[
                           Expanded(
                             child: PlayerBoard(
-                                player: snapshot.data!.playersList[0],
-                                width: width / 3,
-                                height: height / 2),
+                              player: gameState.playersList[0],
+                              width: width / 3,
+                              height: height / 2,
+                            ),
                           ),
                           SizedBox(height: 10),
                           Expanded(
                             child: PlayerBoard(
-                                player: snapshot.data!.playersList[1],
-                                width: width / 3,
-                                height: height / 2),
+                              player: gameState.playersList[1],
+                              width: width / 3,
+                              height: height / 2,
+                            ),
                           ),
                         ],
                       ),
@@ -110,12 +118,13 @@ class _GameScreenState extends State<GameScreen> {
               },
             );
           } else {
-            return const CircularProgressIndicator();
+            return const Center(child: Text('Unknown game state'));
           }
-        },
-      ),
-    );
-  }
+        }
+      },
+    ),
+  );
+}
 }
 
 class EndTurnButton extends StatelessWidget {
@@ -193,12 +202,12 @@ class BuyGoldButton extends StatelessWidget {
 
  class EndScreen extends StatelessWidget{
 
-  GameState gameState;
+  final GameState gameState;
 
   EndScreen({
     super.key,
     required this.gameState
-  })
+  });
 
 
   Player? findWinningPlayer(GameState gameState){
@@ -216,10 +225,23 @@ class BuyGoldButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Text('')
+    Player? winner = findWinningPlayer(gameState);
 
+    return Center(
+      child: AlertDialog(
+        title: Text('Game Over'),
+        content: Text(winner != null
+            ? 'Congratulations, ${winner.playerName}! You have won the game!'
+            : 'The game has ended in a draw.'),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop(); // Change to navigate back to homeScreen.
+            },
+            child: Text('OK'),
+          ),
+        ],
+      ),
     );
   }
-
  }
