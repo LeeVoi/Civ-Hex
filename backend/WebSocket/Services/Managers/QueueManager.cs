@@ -1,6 +1,7 @@
 ﻿using System.Collections.Concurrent;
 using backend.Models.Helpers;
 using backend.Models.states;
+using backend.WebSocket.Dto;
 using Fleck;
 
 namespace backend.WebSocket.Services.Managers;
@@ -43,7 +44,8 @@ public class QueueManager
         {
             if (roomId == id.Value)
             {
-                WsState.Connections[id.Key].Send(state.Serialize());
+                Console.WriteLine("Client added to room");
+                WsState.Queue[id.Key].SendDto(GameStateDtoManager.GetGameStateDto(state));
             }
         }
     }
