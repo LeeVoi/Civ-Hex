@@ -1,5 +1,6 @@
 class Player {
   String wsId;
+  String currentGameId;
   String playerName;
   num victoryPoints;
   num population;
@@ -13,6 +14,7 @@ class Player {
 
   Player({
     required this.wsId,
+    required this.currentGameId,
     required this.playerName,
     required this.victoryPoints,
     required this.population,
@@ -28,6 +30,7 @@ class Player {
   factory Player.fromJson(Map<String, dynamic> json) {
     return Player(
         wsId: json['WsId'],
+        currentGameId: json['CurrentGameId'],
         playerName: json['PlayerName'],
         victoryPoints: json['VictoryPoints'],
         population: json['Population'],

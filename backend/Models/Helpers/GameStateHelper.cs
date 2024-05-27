@@ -29,15 +29,19 @@ public static class GameStateHelper
         };
         
         int startingGold = 10;
+        int rowIndex = -1;
+        int columnIndex = -1;
         List<List<HexTile>> hexList = new List<List<HexTile>>();
 
         foreach (var row in tileTypes)
         {
             var hexRow = new List<HexTile>();
-
+            columnIndex = 0;
+            rowIndex += 1;
             foreach (var tileType in row)
             {
-                hexRow.Add(new HexTile(tileType, TileStatus.Unowned, numbers[hexList.Count][hexRow.Count]));
+                hexRow.Add(new HexTile(tileType, TileStatus.Unowned, numbers[hexList.Count][hexRow.Count], rowIndex, columnIndex));
+                columnIndex += 1;
             }
 
             hexList.Add(hexRow);
@@ -46,8 +50,8 @@ public static class GameStateHelper
         
         List<Player> players = new List<Player>
         {
-            new Player("player1", startingGold, ws1Id),
-            new Player("player2", startingGold, ws2Id)
+            new Player("player1", startingGold, ws1Id, roomId),
+            new Player("player2", startingGold, ws2Id, roomId)
         };
         
         GameState state = new GameState(GameStatus.Active, players, hexList, 1, roomId);

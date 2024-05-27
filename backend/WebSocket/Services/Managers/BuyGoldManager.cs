@@ -16,10 +16,8 @@ public static class BuyGoldManager
         // Check if player have enough resources to sell
         if (player.Wood < wood || player.Stone < stone || player.Grain < grain || player.Sheep < sheep)
         {
-            //If not send them a custom message
-            string message = "You do not have enough resources to trade for gold.";
-                
-            StateManager.SendMessageToPlayer(playerId, message);
+            
+            StateManager.UpdateRoomStateAndNotify(roomId, gameState);
             
         } else
         {

@@ -37,6 +37,18 @@ namespace api
                 };
                 socket.OnClose = () =>
                 {
+                    try
+                    {
+                        WsState.Queue.Remove(socket.ConnectionInfo.Id);
+                        WsState.RoomsState.Remove(WsState.PlayersRooms[socket.ConnectionInfo.Id]);
+                        WsState.PlayersRooms.Remove(socket.ConnectionInfo.Id);
+                    }
+                    catch (Exception)
+                    {
+                        Console.WriteLine("WebSocket was not found in the WsState dictionaries");
+                        throw;
+                    }
+                    
                     app.Services.GetService<ClientConnections>().RemoveConnectionFromPool(socket);
                 };
                 socket.OnMessage = async message =>

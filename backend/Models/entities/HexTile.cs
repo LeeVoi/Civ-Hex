@@ -14,16 +14,22 @@ public class HexTile
         
     public Player? Owner { get; set; }
     
+    public int Row { get; set; }
+    
+    public int Column { get; set; }
+    
 
     #endregion
     
 
-    public HexTile(TileType tileType, TileStatus tileStatus, int tileNumber)
+    public HexTile(TileType tileType, TileStatus tileStatus, int tileNumber, int row, int column)
     {
         GetTileType = tileType;
         GetTileStatus = tileStatus;
         TileNumber = tileNumber;
         Owner = null;
+        Row = row;
+        Column = column;
     }
     
     

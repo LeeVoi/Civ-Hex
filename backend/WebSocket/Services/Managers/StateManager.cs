@@ -10,27 +10,51 @@ public static class StateManager
 {
     public static Player FindPlayerById(GameState gameState, Guid playerId)
     {
-        return gameState.PlayersList.FirstOrDefault(player => player.WsId == playerId);
+        try
+        {
+            return gameState.PlayersList.FirstOrDefault(player => player.WsId == playerId)
+                   ?? throw new ArgumentException($"Player with ID '{playerId}' not found.");
+        }
+        catch (Exception ex)
+        {
+            throw new Exception("Error occurred while trying to FindPlayerById.", ex);
+        }
     }
     
     public static GameState FindGameStateByRoomId(Guid roomId)
     {
-        return WsState.RoomsState.ContainsKey(roomId) ? WsState.RoomsState[roomId] : null; 
+        try
+        {
+            return WsState.RoomsState.ContainsKey(roomId)
+                ? WsState.RoomsState[roomId]
+                : throw new ArgumentException($"Game state for room with ID '{roomId}' not found.");
+        }
+        catch (Exception ex)
+        {
+            throw new Exception("Error occurred in FindGameStateByRoomId.", ex);
+        }
     }
     
     public static bool IsPlayersTurn(Guid playerId, GameState gameState)
     {
-        if (gameState.TurnNumber % 2 == 1 && gameState.PlayersList[0].WsId == playerId)
+        try
         {
-            return true;
+            if (gameState.TurnNumber % 2 == 1 && gameState.PlayersList[0].WsId == playerId)
+            {
+                return true;
+            }
+            if (gameState.TurnNumber % 2 == 0 && gameState.PlayersList[1].WsId == playerId)
+            {
+                return true;
+            }
+
+            return false;
         }
-        if (gameState.TurnNumber % 2 == 0 && gameState.PlayersList[1].WsId == playerId)
+        catch (Exception ex)
         {
-            return true;
+            throw new Exception("Error occurred in IsPlayersTurn.", ex);
         }
-
-        return false;
-
+        
     }
     
     public static void UpdateRoomStateAndNotify(Guid roomId, GameState gameState)
@@ -56,18 +80,21 @@ public static class StateManager
     private static void NotifyPlayers(Guid roomId, GameState gameState)
     {
         // Iterate through all player-room pairs in the WebSocket state
-        foreach (var connection in WsState.PlayersRooms)
+        foreach (var roomConnection in WsState.PlayersRooms)
         {
             // Check if the room associated with the player's connection matches the specified roomId
-            if (connection.Value == roomId)
+            if (roomConnection.Value == roomId)
             {
                 if (IsGameComplete(gameState))
                 {
-                    EndGame(connection, roomId, gameState);
-                    return;
+                    EndGame(roomConnection, roomId, gameState);
                 }
-                // Retrieve the player's connection using their Id and send the serialized game state
-                WsState.Connections[connection.Key].SendDto(GameStateDtoManager.GetGameStateDto(gameState));
+
+                if (!IsGameComplete(gameState))
+                {
+                    // Retrieve the player's connection using their Id and send the serialized game state
+                    WsState.Connections[roomConnection.Key].SendDto(GameStateDtoManager.GetGameStateDto(gameState));
+                }
             }
         }
     }
@@ -84,8 +111,11 @@ public static class StateManager
 
     private static void EndGame(KeyValuePair<Guid, Guid> connection, Guid roomId, GameState gameState)
     {
-        WsState.Connections[connection.Key].Send(FindWinningPlayer(gameState).PlayerName + " has won the game!");
-        WsState.Connections[connection.Key].Send(gameState.Serialize());
+        var winningPlayer = FindWinningPlayer(gameState);
+
+        // Retrieve the player's connection using their Id and send the serialized game state
+        WsState.Connections[connection.Key].SendDto(GameStateDtoManager.GetGameStateDto(gameState));
+        // Remove roomId and playersIds
         WsState.RoomsState.Remove(roomId);
         WsState.PlayersRooms.Remove(connection.Key);
     }
@@ -103,15 +133,5 @@ public static class StateManager
         return null;
     }
     
-    // Method to send a notification to a specific player's connection
-    public static void SendMessageToPlayer(Guid playerId, string message)
-    {
-        // Find the connection associated with the player
-        if (WsState.Connections.TryGetValue(playerId, out var playerConnection))
-        {
-            // Send the notification message to the player's connection
-            playerConnection.Send(message);
-        }
-    }
     
 }
