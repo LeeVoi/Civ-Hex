@@ -448,6 +448,3 @@ FodyWeavers.xsd
 # However, it is generally recommended to version your .csproj files.
 # **/*.csproj
 
-backend/obj/Debug/net8.0/backend.AssemblyInfo.cs
-backend/obj/Debug/net8.0/backend.AssemblyInfoInputs.cache
-backend/obj/rider.project.model.nuget.info
