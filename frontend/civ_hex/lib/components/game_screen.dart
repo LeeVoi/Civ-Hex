@@ -1,6 +1,7 @@
 import 'package:civ_hex/components/game_board.dart';
 import 'package:civ_hex/components/player_board/player_board.dart';
 import 'package:civ_hex/enums/game_status.dart';
+import 'package:civ_hex/models/client_meta_data.dart';
 import 'package:civ_hex/models/gamestate.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -51,12 +52,12 @@ Widget build(BuildContext context) {
                           ),
                         ),
                       ),
-                      const Row(
+                      Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           BuyGoldButton(),
                           AddPopulationButton(),
-                          EndTurnButton(),
+                          EndTurnButton(gameState: snapshot.data!),
                         ],
                       ),
                       const SizedBox(height: 10),
@@ -83,14 +84,14 @@ Widget build(BuildContext context) {
                           child: GameBoard(gameState: gameState),
                         ),
                       ),
-                      const Column(
+                       Column(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           BuyGoldButton(),
                           SizedBox(height: 10),
                           AddPopulationButton(),
                           SizedBox(height: 10),
-                          EndTurnButton(),
+                          EndTurnButton(gameState: snapshot.data!),
                         ],
                       ),
                       Column(
@@ -128,29 +129,44 @@ Widget build(BuildContext context) {
 }
 
 class EndTurnButton extends StatelessWidget {
-  const EndTurnButton({
+
+  GameState gameState;
+
+  EndTurnButton({
+    required this.gameState,
     super.key,
   });
+
+  bool _isButtonEnabled() {
+    var playerId = ClientMetaData.getInstance(playerId: "", roomId: "").getPlayerId();
+    var isTurnEven = gameState.turnNumber % 2 == 1;
+    var isPlayer0 = gameState.playersList[0].wsId == playerId;
+    var isPlayer1 = gameState.playersList[1].wsId == playerId;
+
+    return (isTurnEven && isPlayer0) || (!isTurnEven && isPlayer1);
+  }
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: () {
+      onPressed: _isButtonEnabled()
+          ? () {
         context.read<DataSource>().endTurn();
-      },
+      }
+          : null, // Disable the button if the condition is not met
       style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all<Color>(Colors.green),
-          foregroundColor: MaterialStateProperty.all<Color>(Colors.black),
-          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-            RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
-            ),
-          )),
+        backgroundColor: MaterialStateProperty.all<Color>(Colors.green),
+        foregroundColor: MaterialStateProperty.all<Color>(Colors.black),
+        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+          RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+        ),
+      ),
       child: const Text("End Turn"),
     );
   }
 }
-
 class AddPopulationButton extends StatelessWidget {
   const AddPopulationButton({
     super.key,
@@ -185,7 +201,7 @@ class BuyGoldButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: () {
-        context.read<DataSource>().addGold();
+        context.read<DataSource>().addGold(1, 1, 1, 1);
       },
       style: ButtonStyle(
           backgroundColor: MaterialStateProperty.all<Color>(Colors.amber),

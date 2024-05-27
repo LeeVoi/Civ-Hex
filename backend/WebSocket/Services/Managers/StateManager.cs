@@ -133,15 +133,5 @@ public static class StateManager
         return null;
     }
     
-    // Method to send a notification to a specific player's connection
-    public static void SendMessageToPlayer(Guid playerId, string message)
-    {
-        // Find the connection associated with the player
-        if (WsState.Connections.TryGetValue(playerId, out var playerConnection))
-        {
-            // Send the notification message to the player's connection
-            playerConnection.Send(message);
-        }
-    }
     
 }

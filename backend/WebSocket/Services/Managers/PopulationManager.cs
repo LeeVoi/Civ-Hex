@@ -11,13 +11,13 @@ public static class PopulationManager
         Player player = StateManager.FindPlayerById(gameState, playerId);
         
         if (StateManager.IsPlayersTurn(playerId, gameState))
-        { 
+        {
             if (player.Wood < population || player.Stone < population || player.Grain < population || player.Sheep < population)
             {
-                //If not send them a custom message
-                string message = "You do not have enough resources to increase population by the desired amount.";
-                StateManager.SendMessageToPlayer(playerId, message);
+              StateManager.UpdateRoomStateAndNotify(roomId, gameState);
+              return;
             }
+
             player.Population += population;
             player.Wood -= population;
             player.Stone -= population;

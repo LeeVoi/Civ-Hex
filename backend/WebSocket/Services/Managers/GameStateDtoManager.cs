@@ -19,15 +19,4 @@ public static class GameStateDtoManager
         
         return dto;
     }
-
-    public static ServerBroadcastMessageDto GetEndGameDto(string message)
-    {
-        var dto = new ServerBroadcastMessageDto
-        {
-            message = message
-        };
-        
-        return dto;
-    }
-
 }

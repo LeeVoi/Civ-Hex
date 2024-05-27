@@ -10,22 +10,10 @@ abstract class DataSource {
   void joinQueue();
   void getPlayerId();
   void buyTile(num row, num column);
-  void addGold();
+  void addGold(num wood, num stone, num grain, num sheep);
   void addPopulation();
   void endTurn();
 }
-/**
-class FakeDataSource implements DataSource {
-  @override
-  Stream<GameState> getGameState() async {
-    String jsonString =
-        await rootBundle.loadString('lib/gamestate_jsons/test.json');
-    Map<String, dynamic> jsonData = jsonDecode(jsonString);
-    return GameState.fromJson(jsonData);
-  }
-}
-    **/
-
 class WebSocketDataSource implements DataSource {
   final channel = WebSocketChannel.connect(Uri.parse('ws://localhost:8181'));
   late Stream<dynamic>  broadcastStream = channel.stream.asBroadcastStream();
@@ -77,8 +65,17 @@ class WebSocketDataSource implements DataSource {
     channel.sink.add(purchaseTileMessage);
   }
   @override
-  void addGold(){
-
+  void addGold(num wood, num stone, num grain, num sheep){
+    final buyGoldMessage = jsonEncode({
+      "eventType": "ClientWantsToBuyGold",
+      "roomId": clientMetaData.getRoomId(),
+      "playerId": clientMetaData.getPlayerId(),
+      "wood": wood,
+      "stone": stone,
+      "grain": grain,
+      "sheep": sheep
+    });
+    channel.sink.add(buyGoldMessage);
   }
 
   @override
