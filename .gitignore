@@ -447,3 +447,7 @@ FodyWeavers.xsd
 # Uncomment if you wish to ignore the project file. 
 # However, it is generally recommended to version your .csproj files.
 # **/*.csproj
+
+backend/obj/Debug/net8.0/backend.AssemblyInfo.cs
+backend/obj/Debug/net8.0/backend.AssemblyInfoInputs.cache
+backend/obj/rider.project.model.nuget.info
