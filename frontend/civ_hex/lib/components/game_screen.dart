@@ -55,7 +55,6 @@ Widget build(BuildContext context) {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          BuyGoldButton(),
                           AddPopulationButton(),
                           EndTurnButton(gameState: snapshot.data!),
                         ],
@@ -87,7 +86,6 @@ Widget build(BuildContext context) {
                        Column(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          BuyGoldButton(),
                           SizedBox(height: 10),
                           AddPopulationButton(),
                           SizedBox(height: 10),
@@ -188,30 +186,6 @@ class AddPopulationButton extends StatelessWidget {
             ),
           )),
       child: const Text("Add Population"),
-    );
-  }
-}
-
-class BuyGoldButton extends StatelessWidget {
-  const BuyGoldButton({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: () {
-        context.read<DataSource>().addGold(1, 1, 1, 1);
-      },
-      style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all<Color>(Colors.amber),
-          foregroundColor: MaterialStateProperty.all<Color>(Colors.black),
-          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-            RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
-            ),
-          )),
-      child: const Text("Buy Gold"),
     );
   }
 }

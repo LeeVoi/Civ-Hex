@@ -28,6 +28,7 @@ class _DisplayHexState extends State<DisplayHex> {
     return GestureDetector(
       onTap: _handleTap,
       child: Stack(
+        alignment: Alignment.center,
         children: [
           HexagonWidget.pointy(
             width: widget.width / 3.8,

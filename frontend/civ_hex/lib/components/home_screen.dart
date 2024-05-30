@@ -24,7 +24,7 @@ class _HomeScreenState extends State<HomeScreen> {
               const Expanded(
                 child: Center(
                   child: Text(
-                    'Home Screen',
+                    'Civ-Hex',
                     style: TextStyle(fontSize: 24),
                   ),
                 ),

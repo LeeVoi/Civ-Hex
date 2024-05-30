@@ -1,5 +1,5 @@
 import 'dart:convert';
-
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:civ_hex/models/client_meta_data.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
@@ -15,11 +15,15 @@ abstract class DataSource {
   void endTurn();
 }
 class WebSocketDataSource implements DataSource {
-  final channel = WebSocketChannel.connect(Uri.parse('ws://localhost:8181'));
+  final bool isWeb = kIsWeb;
+  late WebSocketChannel channel = WebSocketChannel.connect(Uri.parse(getConnectionString()));
   late Stream<dynamic>  broadcastStream = channel.stream.asBroadcastStream();
 
   ClientMetaData clientMetaData = ClientMetaData.getInstance(playerId: '', roomId: '');
 
+  String getConnectionString(){
+    return isWeb ? 'ws://localhost:8181' : 'ws://10.0.2.2:8181';
+  }
   @override
   Stream<GameState> getGameState() {
     getPlayerId();
